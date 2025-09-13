@@ -11,7 +11,7 @@ export default function SubscriptionDashboard() {
         Subscription Dashboard
       </h1>
       <p className="text-gray-600 mb-4">
-        Welcome back, Alex Johnson. Manage your broadband subscription.
+        Welcome back, Karthini Muntha. Manage your broadband subscription.
       </p>
 
       {/* Tabs Navigation */}
