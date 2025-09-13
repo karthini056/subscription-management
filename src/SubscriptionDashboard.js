@@ -5,12 +5,26 @@ export default function SubscriptionDashboard() {
   const overviewRef = useRef(null);
   const [modal, setModal] = useState(null);
 
+  // Feature handlers for subscription actions
+  function handleUpgrade() {
+    setModal('upgrade');
+  }
+  function handleDowngrade() {
+    setModal('downgrade');
+  }
+  function handleSubscription() {
+    setModal('subscription');
+  }
+  function handleCancel() {
+    setModal('cancel');
+  }
+
   return (
   <div className="p-6" style={{ background: '#e6e6fa', minHeight: '180vh' }}>
       <h1 className="text-3xl font-bold text-purple-600 mb-2">
         Subscription Dashboard
       </h1>
-      <p className="text-gray-600 mb-4">
+      <p className="text-gray-600 mb-4" style={{ fontSize: '1.5rem', fontWeight: 600 }}>
         Welcome back, Karthini Muntha. Manage your broadband subscription.
       </p>
 
@@ -75,26 +89,10 @@ export default function SubscriptionDashboard() {
             <div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-4">
               <p>Next renewal: 32 days</p>
               <div className="flex gap-2 flex-wrap">
-                <button className="btn bg-success" style={{padding: '0.6rem 1.2rem'}} onClick={() => setModal('upgrade')}>Upgrade</button>
-                <button className="btn bg-primary-dark" style={{padding: '0.6rem 1.2rem'}} onClick={() => setModal('downgrade')}>Downgrade</button>
-      {/* Modal for Upgrade/Downgrade Info */}
-      {modal && (
-        <div style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <div style={{background: '#fff', borderRadius: '1rem', padding: '2rem', maxWidth: 400, width: '90%', boxShadow: '0 4px 24px rgba(80,80,120,0.18)'}}>
-            <h2 style={{marginBottom: '1rem', color: '#9333ea'}}>
-              {modal === 'upgrade' ? 'What is Upgrade?' : 'What is Downgrade?'}
-            </h2>
-            <p style={{marginBottom: '1.5rem', color: '#232946'}}>
-              {modal === 'upgrade'
-                ? 'Upgrade allows you to move to a higher plan with more speed, data, or features. You may pay a higher price for better service.'
-                : 'Downgrade lets you switch to a lower plan with fewer features or lower cost. This can help you save money if you do not need premium features.'}
-            </p>
-            <button className="btn bg-primary" style={{padding: '0.5rem 1.5rem'}} onClick={() => setModal(null)}>Close</button>
-          </div>
-        </div>
-      )}
-                <button className="btn bg-accent" style={{padding: '0.6rem 1.2rem'}} onClick={() => alert('Subscribe option selected!')}>Subscribe</button>
-                <button className="btn bg-danger" style={{padding: '0.6rem 1.2rem'}} onClick={() => alert('Cancel option selected!')}>Cancel</button>
+                <button className="btn bg-success" style={{padding: '0.6rem 1.2rem'}} onClick={handleUpgrade}>Upgrade</button>
+                <button className="btn bg-primary-dark" style={{padding: '0.6rem 1.2rem'}} onClick={handleDowngrade}>Downgrade</button>
+                <button className="btn bg-accent" style={{padding: '0.6rem 1.2rem'}} onClick={handleSubscription}>Subscription</button>
+                <button className="btn bg-danger" style={{padding: '0.6rem 1.2rem'}} onClick={handleCancel}>Cancel</button>
               </div>
             </div>
           </div>
@@ -158,6 +156,16 @@ export default function SubscriptionDashboard() {
                   "SLA Guarantee",
                 ],
               },
+              {
+                name: "Enterprise Fiber",
+                price: "$99.99",
+                speed: "1 Gbps • Unlimited",
+                features: [
+                  "Unlimited Data",
+                  "Dedicated Manager",
+                  "SLA Guarantee",
+                ],
+              },
             ].map((plan, i) => (
               <div
                 key={i}
@@ -178,7 +186,7 @@ export default function SubscriptionDashboard() {
                   ))}
                 </ul>
                 <button
-                  className={`mt-4 w-full btn ${plan.name === currentPlan ? 'bg-success border-success' : 'bg-danger'}`}
+                  className={`mt-4 w-full btn ${plan.name === currentPlan ? 'bg-success border-success' : 'bg-accent'}`}
                   style={{ fontSize: '1em', padding: '0.7rem 0' }}
                   onClick={() => {
                     setCurrentPlan(plan.name);
@@ -189,6 +197,7 @@ export default function SubscriptionDashboard() {
                       }
                     }, 100);
                   }}
+                  disabled={plan.name === currentPlan}
                 >
                   {plan.name === currentPlan ? "Current Plan" : "Select Plan"}
                 </button>
@@ -222,6 +231,52 @@ export default function SubscriptionDashboard() {
                 </span>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Modals for Upgrade, Downgrade, Subscription, and Cancel */}
+      {modal === 'upgrade' && (
+        <div style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{background: '#fff', borderRadius: '1rem', padding: '2rem', maxWidth: 400, width: '90%', boxShadow: '0 4px 24px rgba(80,80,120,0.18)'}}>
+            <h2 style={{marginBottom: '1rem', color: '#9333ea'}}>Upgrade Plan</h2>
+            <p style={{marginBottom: '1.5rem', color: '#232946'}}>Select a higher plan to enjoy more features and speed.</p>
+            <button className="btn bg-accent" style={{marginRight: '1rem'}} onClick={() => { setCurrentPlan('Fibernet Ultra'); setModal(null); }}>Fibernet Ultra (200 Mbps, $79.99)</button>
+            <button className="btn bg-accent" onClick={() => { setCurrentPlan('Enterprise Fiber'); setModal(null); }}>Enterprise Fiber (1 Gbps, $99.99)</button>
+            <button className="btn bg-primary" style={{marginLeft: '1rem'}} onClick={() => setModal(null)}>Close</button>
+          </div>
+        </div>
+      )}
+      {modal === 'downgrade' && (
+        <div style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{background: '#fff', borderRadius: '1rem', padding: '2rem', maxWidth: 400, width: '90%', boxShadow: '0 4px 24px rgba(80,80,120,0.18)'}}>
+            <h2 style={{marginBottom: '1rem', color: '#9333ea'}}>Downgrade Plan</h2>
+            <p style={{marginBottom: '1.5rem', color: '#232946'}}>Select a lower plan. You may lose some features.</p>
+            <button className="btn bg-accent" style={{marginRight: '1rem'}} onClick={() => { setCurrentPlan('Fibernet Pro'); setModal(null); }}>Fibernet Pro (100 Mbps, $49.99)</button>
+            <button className="btn bg-accent" onClick={() => { setCurrentPlan('Broadband Copper Basic'); setModal(null); }}>Broadband Copper Basic (25 Mbps, $29.99)</button>
+            <button className="btn bg-primary" style={{marginLeft: '1rem'}} onClick={() => setModal(null)}>Close</button>
+          </div>
+        </div>
+      )}
+      {modal === 'subscription' && (
+        <div style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{background: '#fff', borderRadius: '1rem', padding: '2rem', maxWidth: 400, width: '90%', boxShadow: '0 4px 24px rgba(80,80,120,0.18)'}}>
+            <h2 style={{marginBottom: '1rem', color: '#9333ea'}}>Subscription Details</h2>
+            <p>Current Plan: <b>{currentPlan}</b></p>
+            <p>Renewal Date: 2025-10-13</p>
+            <p>Billing Cycle: Monthly</p>
+            <p>Payment Method: **** 1234</p>
+            <button className="btn bg-primary" style={{marginTop: '1.5rem'}} onClick={() => setModal(null)}>Close</button>
+          </div>
+        </div>
+      )}
+      {modal === 'cancel' && (
+        <div style={{position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{background: '#fff', borderRadius: '1rem', padding: '2rem', maxWidth: 400, width: '90%', boxShadow: '0 4px 24px rgba(80,80,120,0.18)'}}>
+            <h2 style={{marginBottom: '1rem', color: '#9333ea'}}>Cancel Subscription</h2>
+            <p>Are you sure you want to cancel your subscription? Your access will end on 2025-10-13.</p>
+            <button className="btn bg-danger" style={{marginRight: '1rem'}} onClick={() => { setCurrentPlan('No Plan'); setModal(null); }}>Yes, Cancel</button>
+            <button className="btn bg-primary" onClick={() => setModal(null)}>No, Keep</button>
           </div>
         </div>
       )}
