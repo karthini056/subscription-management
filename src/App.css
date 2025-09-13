@@ -24,7 +24,7 @@
 }
 /* Dashboard Section Boxes (Overview, Plans, Billing) */
 .dashboard-section {
-  background: #ffd1ea; /* light pink */
+  background: rgba(255, 255, 255, 0.85); /* semi-transparent for readability */
   color: #232946;
   border-radius: 1.5rem;
   box-shadow: 0 6px 32px 0 rgba(80, 80, 120, 0.13);
@@ -88,6 +88,15 @@
 .gradient-accent {
   background: linear-gradient(90deg, #f97316 0%, #fbbf24 100%);
   color: #fff;
+}
+
+body, .App {
+  min-height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1500&q=80'); /* Modern workspace */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 body {
@@ -177,6 +186,25 @@ body {
   background: #7e22ce;
   border-radius: 9999px;
   transition: width 0.4s;
+}
+
+/* Dashboard Images Row */
+.dashboard-images {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 4rem 0 2rem 0; /* Increased top margin for more space below navbar */
+}
+.dashboard-images img {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(80,80,120,0.13);
+  transition: transform 0.2s;
+}
+.dashboard-images img:hover {
+  transform: scale(1.05);
 }
 
 /* Utility Classes */
